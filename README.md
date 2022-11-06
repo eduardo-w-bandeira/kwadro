@@ -1,5 +1,5 @@
-# Quadro module
- **Quadro** is rudimentary ORM for xlsx files, that works with openpyxl package.
+# QUADRO MODULE
+ **Quadro** is a rudimentary ORM for xlsx files, that works with openpyxl package.
 
 ## First of all, install openpyxl
 ```console
