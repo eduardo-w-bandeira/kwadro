@@ -128,7 +128,7 @@ class Board:
         '''
         :type table_or_entries: a table (class) or a
         list of entries.
-        :returns: first match entry or None
+        :return: first match entry or None
         '''
         if isinstance(table_or_entries, list):
             table = table_or_entries[0].__class__
