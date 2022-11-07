@@ -1,7 +1,7 @@
 '''
 *Quadro* is rudimentary ORM for xlsx files, that works with openpyxl package
 
-Read "README.md" for examples os usage
+One will find examples of use in "README.md".
 '''
 
 import os

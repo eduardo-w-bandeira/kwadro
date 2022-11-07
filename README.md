@@ -6,7 +6,7 @@
 pip install openpyxl
 ```
 
-## EXAMPLES OF USAGE
+## EXAMPLES OF USE
 ### Import
 ```python
 from quadro import BaseTable, Column, Board
