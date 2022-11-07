@@ -1,22 +1,22 @@
-'''
-*Quadro* is rudimentary ORM for xlsx files, that works with openpyxl package
+"""
+*Quadro* is rudimentary ORM for xlsx files,
+that works with openpyxl package.
 
 One will find examples of use in "README.md".
-'''
+"""
 
-import os
+from pathlib import Path
 
 from openpyxl import Workbook, load_workbook
 
 class Column:
 
     def __init__(self, letter_or_number):
-        ''':param letter_or_number: column letter or
-        column number'''
+        """:param letter_or_number: column letter or column number"""
         letter = letter_or_number
         if isinstance(letter_or_number, int):
             n = letter_or_number
-            letter = ''
+            letter = ""
             while n > 0:
                 n, remainder = divmod(n-1, 26)
                 letter = chr(65 + remainder) + letter
@@ -27,8 +27,8 @@ class BaseTable:
     _worksheet = None
 
     def __init__(self, **kwargs):
-        ''':param kwargs: These are column values,
-        wich will be assigned automatically.'''
+        """:param kwargs: These are column values,
+        wich will be assigned automatically."""
         colname_colletter_map = {}
         self._row = None
         for key, value in self.__class__.__dict__.items():
@@ -46,11 +46,11 @@ class BaseTable:
         self._assign_cell_value(name, value)
 
     def __getattribute__(self, name):
-        ws = object.__getattribute__(self, '_worksheet')
+        ws = object.__getattribute__(self, "_worksheet")
         if not ws:
             return object.__getattribute__(self, name)
         colname_colletter = object.__getattribute__(
-            self, '_colname_colletter_map')
+            self, "_colname_colletter_map")
         if name not in colname_colletter:
             return object.__getattribute__(self, name)
         value = self._get_cell_value(name)
@@ -63,7 +63,7 @@ class BaseTable:
 
     def _get_cell(self, colname):
         colletter = self._colname_colletter_map[colname]
-        return self._worksheet[f'{colletter}{self._row}']
+        return self._worksheet[f"{colletter}{self._row}"]
 
     def _assign_cell_value(self, colname, value):
         if self._worksheet and colname in self._colname_colletter_map:
@@ -75,18 +75,17 @@ class BaseTable:
 
 
 class Board:
-    'One can access openpyxl.Workbook through Board.workbook'
+    "One can access openpyxl.Workbook through Board.workbook"
 
     def __init__(self, file=None, force_new=False):
-        '''
+        """
         :param file: New or existing file.
-        If new, default woksheet will be removed.
+        If new or None, default woksheet will be removed.
         :type file: str or pathlib.Path object.
         :param force_new: If True, pre-existing file will be replaced.
-        '''
-        self.file = file
+        """
         self._wsrow_entry_map = {}
-        if not file or force_new or not os.path.exists(file):
+        if not file or force_new or not Path(file).exists():
             self.workbook = Workbook()
             # delete default worksheet
             self.workbook.remove(self.workbook.active)
@@ -94,12 +93,12 @@ class Board:
             self.workbook = load_workbook(file)
 
     def create_sheet(self, table, index=None, force_new=False):
-        '''
+        """
         Creates the sheet if not already created.
         :type table: BaseTable (class).
         :param force_new: if True, pre-existing sheet will be deleted
         before creating new.
-        '''
+        """
         title = table.__title__
         if title in self.workbook.sheetnames and force_new:
             self.workbook.remove(self.workbook[title])
@@ -107,15 +106,15 @@ class Board:
             self.workbook.create_sheet(title, index)
 
     def create_and_add(self, entry, index=None, force_new=False):
-        '''
-        Creates the sheet and add.
+        """
+        Creates the sheet and adds it to file.
         :type entry: a table instance
-        '''
+        """
         self.create_sheet(entry.__class__, index, force_new)
         self.add(entry)
 
     def get(self, table, row):
-        '''Provides the entry by row'''
+        """Provides the entry by row"""
         ws = self.workbook[table.__title__]
         if (ws, row) in self._wsrow_entry_map:
             return self._wsrow_entry_map[(ws, row)]
@@ -125,11 +124,11 @@ class Board:
         return entry
 
     def find(self, table_or_entries, **kwargs):
-        '''
+        """
         :type table_or_entries: a table (class) or a
         list of entries.
         :return: first match entry or None
-        '''
+        """
         if isinstance(table_or_entries, list):
             table = table_or_entries[0].__class__
             searching_rows = [entry._row for entry in table_or_entries]
@@ -142,11 +141,11 @@ class Board:
         return None # just explicting
 
     def find_all(self, table_or_entries, **kwargs):
-        '''
+        """
         :type table_or_entries: a table (class) or a list of entries.
         :param kwargs: if not provided, all entries will be returned.
         :returns: a list of match entries
-        '''
+        """
         if isinstance(table_or_entries, list):
             if not kwargs:
                 return table_or_entries
@@ -189,7 +188,7 @@ class Board:
         return max_row
 
     def add(self, entry):
-        ''':type entry: a table instance'''
+        """:type entry: a table instance"""
         ws = self.workbook[entry.__title__]
         row = self.last_row(entry.__class__) + 1
         entry._associate_worksheet_and_row(ws, row)
