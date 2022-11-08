@@ -20,7 +20,7 @@ class Column:
             while n > 0:
                 n, remainder = divmod(n-1, 26)
                 letter = chr(65 + remainder) + letter
-        self.colletter = letter
+        self.colletter = letter.upper()
 
 
 class BaseTable:
@@ -77,15 +77,14 @@ class BaseTable:
 class Board:
     "One can access openpyxl.Workbook through Board.workbook"
 
-    def __init__(self, file=None, force_new=False):
+    def __init__(self, file=None):
         """
-        :param file: New or existing file.
-        If new or None, default woksheet will be removed.
+        :param file: Existing file.
+        If None, a new one will be created and default woksheet will be removed.
         :type file: str or pathlib.Path object.
-        :param force_new: If True, pre-existing file will be replaced.
         """
         self._wsrow_entry_map = {}
-        if not file or force_new or not Path(file).exists():
+        if not file:
             self.workbook = Workbook()
             # delete default worksheet
             self.workbook.remove(self.workbook.active)
@@ -107,7 +106,7 @@ class Board:
 
     def create_and_add(self, entry, index=None, force_new=False):
         """
-        Creates the sheet and adds it to file.
+        Creates the sheet and adds the entry to file.
         :type entry: a table instance
         """
         self.create_sheet(entry.__class__, index, force_new)
@@ -160,8 +159,7 @@ class Board:
                 match_rows = searching_rows
             else:
                 match_rows = self._find_rows(table, searching_rows, **kwargs)
-        for row in match_rows:
-            yield self.get(table, row)
+        return [self.get(table, row) for row in match_rows]
 
     def _find_rows(self, table, searching_rows, **kwargs):
         for row in searching_rows:

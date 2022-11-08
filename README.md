@@ -7,68 +7,76 @@ pip install openpyxl
 ```
 
 ## EXAMPLES OF USE
-### Import
+### Importing
 ```python
 from quadro import BaseTable, Column, Board
 ```
 
-### Define a table, i.e. a sheet-class
+### Load your file
+```python
+board = Board("my-file.xlsx")
+```
+
+### Or start a new file
+```python
+board = Board()
+```
+
+### Create a sheet, if not already there
+#### Define a table, i.e., a sheet-class
 ```python
 class Clients(BaseTable):
-    __title__ = "Clients"
-    name = Column(1)  
-    phone = Column(2)
-    address = Column("C") # or Column(3)
-    country = Column(4)
+    __title__ = "clients"
+    name = Column("A") # Or Column(1) 
+    phone = Column("b") # It's case insensitive
+    address = Column(3) # You can use numbers instead
+    country = Column("D")
 ```
-
-### Define a file to use as a board
-```python
-board = Board("my-file.xlsx") # new file or existing one
-```
-
-### Create the sheet, if not created
+#### Then create it on the board
 ```python
 board.create_sheet(Clients)
 ```
 
-### Or force a new one
+#### Or force a new sheet
+*Warning*: The actual sheet will be deleted and a new one will be created.
 ```python
 board.create_sheet(Clients, force_new=True)
 ```
 
-### Add an entry at first empty row
+### Add an entry in the first empty row
 ```python
-entry = Clients(
-    name="Joshua King",
+client = Clients(
+    name="John Doe",
     phone=123,
     address="80 Bla St, Canberra",
     country="Australia")
 
-board.add(entry)
+board.add(client)
 ```
 
 ### If one wants to get the row
 ```python
-print(entry._row) # Outputs: 1
+print(client._row) # Outputs: 1
 ```
 
 ### Find the first entry that matches given args
 ```python
-entry = board.find(
-    Clients, name="Joshua King", address="80 Bla St, Canberra")
+client = board.find(
+    Clients, name="John Doe", address="80 Bla St, Canberra")
 
-print(entry.phone) # Outputs: 123
+print(client.phone) # Outputs: 123
 ```
 
-### find_all( ) yields matches
+### Find all matches
 ```python
-entries = board.find_all(Clients, country="Australia")
+result = board.find_all(Clients, country="Australia")
 ```
+If you want to retrive all rows, just use `find_all(Clients)` without other args.
 
-### If one wants to access openpyxl.Worksheet object
+
+### If you want to access openpyxl.Worksheet object
 ```python
-worksheet = entry._worksheet
+worksheet = client._worksheet
 ```
 
 ### Saving
