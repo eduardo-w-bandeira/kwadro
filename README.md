@@ -47,14 +47,14 @@ board.create_sheet(Clients, force_new=True)
 ```python
 client = Clients(
     name="John Doe",
-    phone=123,
+    phone=7654321,
     address="80 Bla St, Canberra",
     country="Australia")
 
 board.add(client)
 ```
 
-### If one wants to get the row
+### If you want to get the row
 ```python
 print(client._row) # Outputs: 1
 ```
@@ -64,7 +64,7 @@ print(client._row) # Outputs: 1
 client = board.find(
     Clients, name="John Doe", address="80 Bla St, Canberra")
 
-print(client.phone) # Outputs: 123
+print(client.phone) # Outputs: 7654321
 ```
 
 ### Find all matches
