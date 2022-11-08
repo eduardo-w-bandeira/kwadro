@@ -143,7 +143,7 @@ class Board:
         """
         :type table_or_entries: a table (class) or a list of entries.
         :param kwargs: if not provided, all entries will be returned.
-        :returns: a list of match entries
+        :return: it yields match entries
         """
         if isinstance(table_or_entries, list):
             if not kwargs:
@@ -159,7 +159,8 @@ class Board:
                 match_rows = searching_rows
             else:
                 match_rows = self._find_rows(table, searching_rows, **kwargs)
-        return [self.get(table, row) for row in match_rows]
+        for row in match_rows:
+            yield self.get(table, row)
 
     def _find_rows(self, table, searching_rows, **kwargs):
         for row in searching_rows:
