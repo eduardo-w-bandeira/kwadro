@@ -2,7 +2,7 @@
  **Quadro** is a rudimentary ORM (object relational mapping) for Excel files (xlsx), that works with openpyxl package.
 
 ## Examples of use
-### Importing
+### Import
 ```python
 from quadro import Board, BaseTable, Column
 ```
@@ -20,8 +20,8 @@ board = Board()
 ### Define a table for every sheet you want to work with
 You'll need to derive your class from `BaseTable`, like the example below:
 ```python
-class Clients(BaseTable):
-    __title__ = "Clients"
+class Employees(BaseTable):
+    __title__ = "Employees"
     name = Column("A") # Or Column(1) 
     birth = Column("B")
     phone = Column("c") # It's case insensitive
@@ -31,52 +31,52 @@ class Clients(BaseTable):
 
 ### If the sheet doesn't exist yet, you can create it on the board
 ```python
-board.create_sheet(Clients)
+board.create_sheet(Employees)
 ```
-Optionally you can choose the sheet index: `create_sheet(Clients, index=3)`.
+Optionally you can choose the sheet index: `create_sheet(Employees, index=3)`.
 
 
 ### Or force a new sheet
 ```python
-board.create_sheet(Clients, force_new=True)
+board.create_sheet(Employees, force_new=True)
 ```
 *Warning*: If you use `force_new=True`, when you save the file, the pre-existing sheet will be permanently deleted and a new one will be created.
 
 ### Add a new entry in the first empty row
 ```python
-client = Clients(
+employee = Employees(
     name="John Doe",
-    birth=datetime.date(2000, 3, 10), # import datetime before using this
+    birth=datetime.date(1987, 3, 12), # import datetime before using this
     phone=7654321,
     address="80 Bla St, Canberra",
     country="Australia")
 
-board.add(client)
+board.add(employee)
 ```
 
 ### If you want to get the row number
 ```python
-print(client._row) # Outputs: 1
+print(employee._row) # Outputs: 1
 ```
 
-### Find the first row that matches given args
+### Find the first row that match your filters
 ```python
-client = board.find(Clients, name="John Doe", address="80 Bla St, Canberra")
+employee = board.find(Employees, name="John Doe", address="80 Bla St, Canberra")
 
-print(client.phone) # Outputs: 7654321
+print(employee.phone) # Outputs: 7654321
 ```
 
 ### Find all rows that match your filters
 ```python
-result = board.find_all(Clients, country="Australia")
+result = board.find_all(Employees, country="Australia")
 ```
 
 ### Retrieve all rows
 ```python
-result = board.find_all(Clients)
+result = board.find_all(Employees)
 ```
 
-### Saving
+### Save
 ```python
 board.save("new-or-same-file.xlsx")
 ```
@@ -90,5 +90,5 @@ workbook = board._workbook
 
 ### And to access openpyxl-Worksheet instance
 ```python
-worksheet = client._worksheet
+worksheet = employee._worksheet
 ```
