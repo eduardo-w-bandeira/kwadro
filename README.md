@@ -59,7 +59,7 @@ board.add(employee)
 print(employee._row) # Outputs: 1
 ```
 
-### Find the first row that match your filters
+### Find the first row that matches your filters
 ```python
 employee = board.find(Employees, name="John Doe", address="80 Bla St, Canberra")
 
