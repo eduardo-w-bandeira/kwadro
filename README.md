@@ -1,10 +1,10 @@
 # QUADRO MODULE
- **Quadro** is a rudimentary ORM for xlsx files, that works with openpyxl package.
+ **Quadro** is a rudimentary ORM (object relational mapping) for Excel (xlsx) files, that works with openpyxl package.
 
-## EXAMPLES OF USE
+## Examples of use
 ### Importing
 ```python
-from quadro import BaseTable, Column, Board
+from quadro import Board, BaseTable, Column
 ```
 
 ### Load your file
@@ -17,31 +17,36 @@ board = Board("my-file.xlsx")
 board = Board()
 ```
 
-### Create a sheet, if not already there
-#### Define a table, i.e., a sheet-class
+### Define a table for every sheet you want to work with
+You'll need to derive your class from `BaseTable`, like the example below:
 ```python
 class Clients(BaseTable):
-    __title__ = "clients"
+    __title__ = "Clients"
     name = Column("A") # Or Column(1) 
-    phone = Column("b") # It's case insensitive
-    address = Column(3) # You can use numbers instead
-    country = Column("D")
+    birth = Column("B")
+    phone = Column("c") # It's case insensitive
+    address = Column(4) # You can use numbers instead
+    country = Column("E")
 ```
-#### Then create it on the board
+
+### If the sheet doesn't exist yet, you can create it on the board
 ```python
 board.create_sheet(Clients)
 ```
+Optionally you can choose the sheet index: `create_sheet(Clients, index=3)`.
 
-#### Or force a new sheet
-*Warning*: The actual sheet will be deleted and a new one will be created.
+
+### Or force a new sheet
 ```python
 board.create_sheet(Clients, force_new=True)
 ```
+*Warning*: If you use `force_new=True`, when you save the file, the pre-existing sheet will be permanently deleted and a new one will be created.
 
-### Add an entry in the first empty row
+### Add a new entry in the first empty row
 ```python
 client = Clients(
     name="John Doe",
+    birth=datetime.date(2000, 3, 10), # import datetime before using this
     phone=7654321,
     address="80 Bla St, Canberra",
     country="Australia")
@@ -49,32 +54,41 @@ client = Clients(
 board.add(client)
 ```
 
-### If you want to get the row
+### If you want to get the row number
 ```python
 print(client._row) # Outputs: 1
 ```
 
-### Find the first entry that matches given args
+### Find the first row that matches given args
 ```python
-client = board.find(
-    Clients, name="John Doe", address="80 Bla St, Canberra")
+client = board.find(Clients, name="John Doe", address="80 Bla St, Canberra")
 
 print(client.phone) # Outputs: 7654321
 ```
 
-### Find all matches
+### Find all rows that match your filters
 ```python
 result = board.find_all(Clients, country="Australia")
 ```
-If you want to retrive all rows, just use `find_all(Clients)` without other args.
 
-
-### If you want to access openpyxl.Worksheet object
+### Retrieve all rows
 ```python
-worksheet = client._worksheet
+result = board.find_all(Clients)
 ```
 
 ### Saving
 ```python
 board.save("new-or-same-file.xlsx")
+```
+
+## Accessing openpyxl objects
+
+### To access openpyxl-Worbook instance, use
+```python
+workbook = board._workbook
+```
+
+### And to access openpyxl-Worksheet instance
+```python
+worksheet = client._worksheet
 ```

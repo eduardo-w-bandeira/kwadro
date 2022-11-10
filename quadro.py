@@ -75,46 +75,51 @@ class BaseTable:
 
 
 class Board:
-    "One can access openpyxl.Workbook through Board.workbook"
+    "One can access openpyxl.Workbook through Board()._workbook"
 
     def __init__(self, file=None):
         """
         :param file: Existing file.
         If None, a new one will be created and default woksheet will be removed.
-        :type file: str or pathlib.Path object.
+        :type file: str or pathlib.Path instance.
         """
         self._wsrow_entry_map = {}
         if not file:
-            self.workbook = Workbook()
+            self._workbook = Workbook()
             # delete default worksheet
-            self.workbook.remove(self.workbook.active)
+            self._workbook.remove(self._workbook.active)
         else:
-            self.workbook = load_workbook(file)
+            self._workbook = load_workbook(file)
 
     def create_sheet(self, table, index=None, force_new=False):
         """
-        Creates the sheet if not already created.
-        :type table: BaseTable (class).
+        Create the sheet if not already created (at an optional index).
+
+        :type table: BaseTable-derived class.
+        :param index: optional position at which the sheet will be inserted.
+        It starts at 0.
+        :type index: int
         :param force_new: if True, pre-existing sheet will be deleted
         before creating new.
         """
         title = table.__title__
-        if title in self.workbook.sheetnames and force_new:
-            self.workbook.remove(self.workbook[title])
-        if title not in self.workbook.sheetnames:
-            self.workbook.create_sheet(title, index)
+        if title in self._workbook.sheetnames and force_new:
+            self._workbook.remove(self._workbook[title])
+        if title not in self._workbook.sheetnames:
+            self._workbook.create_sheet(title, index)
 
     def create_and_add(self, entry, index=None, force_new=False):
         """
-        Creates the sheet and adds the entry to file.
+        Create the sheet and adds the entry to file.
+        
         :type entry: a table instance
         """
         self.create_sheet(entry.__class__, index, force_new)
         self.add(entry)
 
     def get(self, table, row):
-        """Provides the entry by row"""
-        ws = self.workbook[table.__title__]
+        """Provide the entry by row number"""
+        ws = self._workbook[table.__title__]
         if (ws, row) in self._wsrow_entry_map:
             return self._wsrow_entry_map[(ws, row)]
         entry = table()
@@ -175,7 +180,7 @@ class Board:
                     break
 
     def last_row(self, table):
-        ws = self.workbook[table.__title__]
+        ws = self._workbook[table.__title__]
         max_row = ws.max_row
         if max_row == 1: # Because ws.max_row is never < 1
             first = self.get(table, 1)
@@ -188,7 +193,7 @@ class Board:
 
     def add(self, entry):
         """:type entry: a table instance"""
-        ws = self.workbook[entry.__title__]
+        ws = self._workbook[entry.__title__]
         row = self.last_row(entry.__class__) + 1
         entry._associate_worksheet_and_row(ws, row)
         for key in entry._colname_colletter_map.keys():
@@ -198,13 +203,13 @@ class Board:
 
     def remove(self, entry):
         entry._worksheet.delete_entries(entry._row)
-        ws = self.workbook[entry.__title__]
+        ws = self._workbook[entry.__title__]
         del self._wsrow_entry_map[(ws, entry._row)]
 
     def has_table(self, table):
-        if table.__title__ in self.workbook.sheetnames:
+        if table.__title__ in self._workbook.sheetnames:
             return True
         return False
 
     def save(self, file):
-        self.workbook.save(file)
+        self._workbook.save(file)
