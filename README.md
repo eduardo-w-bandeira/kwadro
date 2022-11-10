@@ -1,5 +1,5 @@
 # QUADRO MODULE
- **Quadro** is a rudimentary ORM (object relational mapping) for Excel (xlsx) files, that works with openpyxl package.
+ **Quadro** is a rudimentary ORM (object relational mapping) for Excel files (xlsx), that works with openpyxl package.
 
 ## Examples of use
 ### Importing
