@@ -1,11 +1,12 @@
 """
-*Quadro* is rudimentary ORM for xlsx files,
+*Kwadro* is rudimentary ORM for Excel files (xlsx),
 that works with openpyxl package.
 
 One will find examples of use in "README.md".
 """
 
 from openpyxl import Workbook, load_workbook
+
 
 class Column:
 

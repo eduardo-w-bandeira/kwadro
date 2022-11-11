@@ -1,10 +1,10 @@
-# QUADRO MODULE
- **Quadro** is a rudimentary python ORM (object relational mapping) for Excel files (xlsx), that works with openpyxl package.
+# KWADRO MODULE
+ **Kwadro** is a rudimentary python ORM (object relational mapping) for Excel files (xlsx), that works with openpyxl package.
 
 ## Examples of use
 ### Import
 ```python
-from quadro import Board, BaseTable, Column
+from kwadro import Board, BaseTable, Column
 ```
 
 ### Load your file
