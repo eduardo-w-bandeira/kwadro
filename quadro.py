@@ -5,8 +5,6 @@ that works with openpyxl package.
 One will find examples of use in "README.md".
 """
 
-from pathlib import Path
-
 from openpyxl import Workbook, load_workbook
 
 class Column:
@@ -27,8 +25,10 @@ class BaseTable:
     _worksheet = None
 
     def __init__(self, **kwargs):
-        """:param kwargs: These are column values,
-        wich will be assigned automatically."""
+        """
+        :param kwargs: These are column values,
+            wich will be assigned automatically.
+        """
         colname_colletter_map = {}
         self._row = None
         for key, value in self.__class__.__dict__.items():
@@ -75,12 +75,12 @@ class BaseTable:
 
 
 class Board:
-    "One can access openpyxl.Workbook through Board()._workbook"
+    '''One can access openpyxl.Workbook through Board()._workbook'''
 
     def __init__(self, file=None):
         """
-        :param file: Existing file.
-        If None, a new one will be created and default woksheet will be removed.
+        :param file: Existing file path. If not provided, a new one will
+            be created and default woksheet will be removed.
         :type file: str or pathlib.Path instance.
         """
         self._wsrow_entry_map = {}
@@ -92,15 +92,14 @@ class Board:
             self._workbook = load_workbook(file)
 
     def create_sheet(self, table, index=None, force_new=False):
-        """
-        Create the sheet if not already created (at an optional index).
+        """Creates the sheet if not already created (at an optional index).
 
         :type table: BaseTable-derived class.
-        :param index: optional position at which the sheet will be inserted.
-        It starts at 0.
+        :param index: Optional position at which the sheet will be inserted.
+            It starts at 0.
         :type index: int
         :param force_new: if True, pre-existing sheet will be deleted
-        before creating new.
+            before creating new.
         """
         title = table.__title__
         if title in self._workbook.sheetnames and force_new:
@@ -109,8 +108,7 @@ class Board:
             self._workbook.create_sheet(title, index)
 
     def create_and_add(self, entry, index=None, force_new=False):
-        """
-        Create the sheet and adds the entry to file.
+        """Creates the sheet and adds the entry to file.
         
         :type entry: a table instance
         """
@@ -118,7 +116,7 @@ class Board:
         self.add(entry)
 
     def get(self, table, row):
-        """Provide the entry by row number"""
+        """Returns the entry by row number"""
         ws = self._workbook[table.__title__]
         if (ws, row) in self._wsrow_entry_map:
             return self._wsrow_entry_map[(ws, row)]
@@ -129,9 +127,9 @@ class Board:
 
     def find(self, table_or_entries, **kwargs):
         """
-        :type table_or_entries: a table (class) or a
-        list of entries.
-        :return: first match entry or None
+        :type table_or_entries: BaseTable-derived class or a
+            list of entries.
+        :returns: first match entry or None
         """
         if isinstance(table_or_entries, list):
             table = table_or_entries[0].__class__
@@ -146,9 +144,9 @@ class Board:
 
     def find_all(self, table_or_entries, **kwargs):
         """
-        :type table_or_entries: a table (class) or a list of entries.
-        :param kwargs: if not provided, all entries will be returned.
-        :return: it yields match entries
+        :type table_or_entries: BaseTable-derived or a list of entries.
+        :param kwargs: Filters. If not provided, all entries will be returned.
+        :returns: It yields match entries.
         """
         if isinstance(table_or_entries, list):
             if not kwargs:
