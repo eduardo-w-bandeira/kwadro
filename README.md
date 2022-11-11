@@ -44,9 +44,11 @@ board.create_sheet(Employees, force_new=True)
 
 ### Add a new entry in the first empty row
 ```python
+import datetime
+
 employee = Employees(
     name="John Doe",
-    birth=datetime.date(1987, 3, 12), # import datetime before using this
+    birth=datetime.date(1987, 3, 12),
     phone=7654321,
     address="80 Bla St, Canberra",
     country="Australia")
