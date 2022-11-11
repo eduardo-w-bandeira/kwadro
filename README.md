@@ -88,7 +88,7 @@ board.save("new-or-same-file.xlsx")
 workbook = board._workbook
 ```
 
-### And to access openpyxl-Worksheet instance
+### As for openpyxl-Worksheet instance
 ```python
 worksheet = employee._worksheet
 ```
