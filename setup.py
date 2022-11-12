@@ -7,4 +7,4 @@ setup(
     url = "https://github.com/eduardo-willians/kwadro",
     license='MIT',
     install_requires = ['openpyxl'],
-    scripts=['kwadro.py']) 
+    scripts=['kwadro.py'])
