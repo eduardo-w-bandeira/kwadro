@@ -83,7 +83,7 @@ result = board.find_all(Employees)
 board.save("new-or-same-file.xlsx")
 ```
 
-## Accessing openpyxl objects
+## Access openpyxl objects
 
 ### To access openpyxl-Worbook instance, use
 ```python

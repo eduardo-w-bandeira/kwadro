@@ -26,10 +26,9 @@ class BaseTable:
     _worksheet = None
 
     def __init__(self, **kwargs):
-        """
-        :param kwargs: These are column values,
-            wich will be assigned automatically.
-        """
+        '''
+        :param kwargs: Column-instances, which will be assigned automatically.
+        '''
         colname_colletter_map = {}
         self._row = None
         for key, value in self.__class__.__dict__.items():
