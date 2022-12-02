@@ -1,5 +1,5 @@
 """
-*Kwadro* is rudimentary ORM for Excel files (xlsx),
+*Kwadro* is basic ORM for Excel files (xlsx),
 that works with openpyxl package.
 
 One will find examples of use in "README.md".
