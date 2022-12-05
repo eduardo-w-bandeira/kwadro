@@ -1,9 +1,11 @@
 """
-*Kwadro* is basic ORM for Excel files (xlsx),
+*kwadro* is basic ORM for Excel files (xlsx),
 that works with openpyxl package.
 
 One will find examples of use in "README.md".
 """
+
+__all__ = ['BaseTable', 'Column', 'Board']
 
 from openpyxl import Workbook, load_workbook
 
