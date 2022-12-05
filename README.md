@@ -1,5 +1,5 @@
-# KWADRO MODULE
- **Kwadro** is an elementary Python ORM (object relational mapping) for Excel files (xlsx). It runs on top of openpyxl package.
+# kwadro module
+ **kwadro** is an elementary Python ORM (object relational mapping) for Excel files (xlsx). It runs on top of openpyxl package.
 
 ## Examples of use
 ### Import
@@ -17,7 +17,7 @@ board = Board("my-file.xlsx")
 board = Board()
 ```
 
-### Define a table for every sheet you want to work with
+### Define a table-class for every sheet you want to work with
 You'll need to derive your class from `BaseTable`, like the example below:
 ```python
 class Employees(BaseTable):
