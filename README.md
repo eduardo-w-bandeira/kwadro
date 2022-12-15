@@ -1,5 +1,5 @@
 # kwadro module
- **kwadro** is an elementary Python ORM (object relational mapping) for Excel files (xlsx). It runs on top of openpyxl package.
+ **kwadro** is a simple Python ORM (object-relational mapper) for manipulating data in Excel files (xlsx) using object-oriented abstractions. It's built on top of the openpyxl package.
 
 ## Examples of use
 ### Import
