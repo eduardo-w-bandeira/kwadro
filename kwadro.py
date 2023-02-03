@@ -8,6 +8,7 @@ One will find examples of use in "README.md".
 __all__ = ['BaseTable', 'Column', 'Board']
 
 from openpyxl import Workbook, load_workbook
+from openpyxl.utils.cell import get_column_letter
 
 
 class Column:
@@ -16,11 +17,7 @@ class Column:
         """:param letter_or_number: column letter or column number"""
         letter = letter_or_number
         if isinstance(letter_or_number, int):
-            n = letter_or_number
-            letter = ""
-            while n > 0:
-                n, remainder = divmod(n-1, 26)
-                letter = chr(65 + remainder) + letter
+            letter = get_column_letter(letter_or_number)
         self.colletter = letter.upper()
 
 
@@ -56,7 +53,7 @@ class BaseTable:
         if name not in colname_colletter:
             return object.__getattribute__(self, name)
         value = self._get_cell_value(name)
-        object.__setattr__(self, name, value) # update __dict__
+        object.__setattr__(self, name, value)  # update __dict__
         return value
 
     def _associate_worksheet_and_row(self, worksheet, row):
@@ -69,7 +66,7 @@ class BaseTable:
 
     def _assign_cell_value(self, colname, value):
         if self._worksheet and colname in self._colname_colletter_map:
-            if not isinstance(value, Column): # Assures the value was provided
+            if not isinstance(value, Column):  # Assures the value was provided
                 self._get_cell(colname).value = value
 
     def _get_cell_value(self, colname):
@@ -111,7 +108,7 @@ class Board:
 
     def create_and_add(self, entry, index=None, force_new=False):
         """Creates the sheet and adds the entry to file.
-        
+
         :type entry: a table instance
         """
         self.create_sheet(entry.__class__, index, force_new)
@@ -142,7 +139,7 @@ class Board:
             searching_rows = range(1, empty_row)
         for row in self._find_rows(table, searching_rows, **kwargs):
             return self.get(table, row)
-        return None # just explicting
+        return None  # just explicting
 
     def find_all(self, table_or_entries, **kwargs):
         """
@@ -182,7 +179,7 @@ class Board:
     def last_row(self, table):
         ws = self._workbook[table.__title__]
         max_row = ws.max_row
-        if max_row == 1: # Because ws.max_row is never < 1
+        if max_row == 1:  # Because ws.max_row is never < 1
             first = self.get(table, 1)
             values = [
                 first._get_cell_value(colname) for colname in
