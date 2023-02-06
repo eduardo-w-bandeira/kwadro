@@ -1,7 +1,7 @@
 # kwadro module
  **kwadro** is a simple Python ORM (object-relational mapper) for manipulating data in Excel files (xlsx) using object-oriented abstractions. It's built on top of the openpyxl package.
 
-## Examples of use
+## Usage examples
 ### Import
 ```python
 from kwadro import Board, BaseTable, Column
@@ -50,8 +50,8 @@ employee = Employees(
     name="John Doe",
     birth=datetime.date(1987, 3, 12),
     phone=7654321,
-    address="80 Bla St, Canberra",
-    country="Australia")
+    address="80 Bla St, Vancouver",
+    country="Canada")
 
 board.add(employee)
 ```
@@ -63,14 +63,14 @@ print(employee._row) # Outputs: 1
 
 ### Find the first row that matches your filters
 ```python
-employee = board.find(Employees, name="John Doe", address="80 Bla St, Canberra")
+employee = board.find(Employees, name="John Doe", address="80 Bla St, Vancouver")
 
 print(employee.phone) # Outputs: 7654321
 ```
 
 ### Find all rows that match your filters
 ```python
-result = board.find_all(Employees, country="Australia")
+result = board.find_all(Employees, country="Canada")
 ```
 
 ### Retrieve all rows
