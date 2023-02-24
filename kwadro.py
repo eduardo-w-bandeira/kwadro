@@ -30,6 +30,7 @@ class BaseTable:
         '''
         colname_colletter_map = {}
         self._row = None
+        self._board = None
         for key, value in self.__class__.__dict__.items():
             if isinstance(value, Column):
                 colname_colletter_map[key] = value.colletter
@@ -56,9 +57,10 @@ class BaseTable:
         object.__setattr__(self, name, value)  # update __dict__
         return value
 
-    def _associate_worksheet_and_row(self, worksheet, row):
+    def _assign_internal_data(self, worksheet, row, board):
         self._worksheet = worksheet
         self._row = row
+        self._board = board
 
     def _get_cell(self, colname):
         colletter = self._colname_colletter_map[colname]
@@ -120,7 +122,7 @@ class Board:
         if (ws, row) in self._wsrow_entry_map:
             return self._wsrow_entry_map[(ws, row)]
         entry = table()
-        entry._associate_worksheet_and_row(ws, row)
+        entry._assign_internal_data(ws, row, self)
         self._wsrow_entry_map[(ws, row)] = entry
         return entry
 
@@ -192,7 +194,7 @@ class Board:
         """:type entry: a table instance"""
         ws = self._workbook[entry.__title__]
         row = self.last_row(entry.__class__) + 1
-        entry._associate_worksheet_and_row(ws, row)
+        entry._assign_internal_data(ws, row, self)
         for key in entry._colname_colletter_map.keys():
             value = entry.__dict__[key]
             entry._assign_cell_value(key, value)
