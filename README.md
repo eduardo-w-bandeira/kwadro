@@ -2,6 +2,7 @@
  **kwadro** is a simple Python ORM (object-relational mapper) for manipulating data in Excel files (xlsx) using object-oriented abstractions. It's built on top of the openpyxl package.
 
 # Usage examples
+
 ### Import
 ```python
 from kwadro import Board, BaseTable, Column
@@ -83,14 +84,24 @@ result = board.find_all(Employees)
 board.save("new-or-same-file.xlsx")
 ```
 
-# Access openpyxl objects
+# Accessing useful internal objects
 
-### To access openpyxl-worbook instance, use
+### Accessing openpyxl-worbook instance
 ```python
 workbook = board._workbook
 ```
 
-### As for openpyxl-worksheet instance
+### Acessing openpyxl-worksheet instance
 ```python
 worksheet = employee._worksheet
+```
+
+### Accessing the `Board()` of a Table instance
+```python
+board = entry._board
+```
+
+### Accessing the row number of a Table instance
+```python
+row = entry._row
 ```
