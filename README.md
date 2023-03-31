@@ -98,10 +98,10 @@ worksheet = employee._worksheet
 
 ### Accessing the `Board()` of a Table instance
 ```python
-board = entry._board
+board = employee._board
 ```
 
 ### Accessing the row number of a Table instance
 ```python
-row = entry._row
+row = employee._row
 ```
