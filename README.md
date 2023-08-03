@@ -41,7 +41,8 @@ Optionally you can choose the sheet index: `create_sheet(Employees, index=3)`.
 ```python
 board.create_sheet(Employees, force_new=True)
 ```
-*Warning*: If you use `force_new=True`, when you save the file, the pre-existing sheet will be permanently deleted and a new one will be created.
+>[!warning] Warning
+> If you use `force_new=True`, when you save the file, the pre-existing sheet will be permanently deleted and a new one will be created.
 
 ### Add a new entry in the first empty row
 ```python
