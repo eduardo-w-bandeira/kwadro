@@ -6,7 +6,7 @@
 
 ### Import
 ```python
-from kwadro import Board, BaseTable, Column
+from kwadro import Board, Table, Column # or import *
 ```
 
 ### Load your file
@@ -20,9 +20,9 @@ board = Board()
 ```
 
 ### Define a table-class for every sheet you want to work with
-You'll need to derive your class from `BaseTable`, like the example below:
+You'll need to derive your class from `Table`, like the example below:
 ```python
-class Employees(BaseTable):
+class Employees(Table):
     __title__ = "Employees"
     name = Column("A") # Or Column(1) 
     birth = Column("B")
@@ -44,7 +44,7 @@ board.create_sheet(Employees, force_new=True)
 >[!warning] Warning
 > If you use `force_new=True`, when you save the file, the pre-existing sheet will be permanently deleted and a new one will be created.
 
-### Add a new entry in the first empty row
+### Add a new record in the first empty row
 ```python
 import datetime
 
@@ -53,7 +53,8 @@ employee = Employees(
     birth=datetime.date(1987, 3, 12),
     phone=7654321,
     address="80 Bla St, Vancouver",
-    country="Canada")
+    country="Canada"
+)
 
 board.add(employee)
 ```
