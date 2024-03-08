@@ -44,7 +44,7 @@ board.create_sheet(Employees, force_new=True)
 >[!warning] Warning
 > If you use `force_new=True`, when you save the file, the pre-existing sheet will be permanently deleted and a new one will be created.
 
-### Add a new record in the first empty row
+### Assign values, using Python data types
 ```python
 import datetime
 
@@ -55,20 +55,24 @@ employee = Employees(
     address="80 Bla St, Vancouver",
     country="Canada"
 )
-
-board.add(employee)
 ```
 
-### Optionally, you may add the values after instancing it
+### Optionally, you may assign values after instancing it
 ```python
 employee = Employees()
 employee.name = "John Doe"
-...
 ```
+If a value is not provided, the corresponding cell value won't be changed when you save.
 
-### If you want to get the row number
+### Add the new record in the first empty row
 ```python
-print(employee.get_row()) # Outputs: 1
+board.add(employee)
+```
+The changes are stored only in memory, until you use `board.save()` (see below).
+
+### Get the row number
+```python
+print(employee.get_row()) # Outputs: The worksheet row number
 ```
 
 ### Find the first record that matches your filters
@@ -98,7 +102,7 @@ result = board.find_all(Employees, country="Canada")
 result = board.find_all(Employees)
 ```
 
-### Save changes
+### Save all changes
 ```python
 board.save("new-or-same-file.xlsx")
 ```
