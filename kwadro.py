@@ -102,6 +102,12 @@ class Table:
     def _get_cell_value(self, colname):
         return self._get_cell(colname).value
 
+    def get_row(self):
+        return self._row
+
+    def get_board(self):
+        return self._board
+
 
 class Board:
     """

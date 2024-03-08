@@ -61,14 +61,19 @@ board.add(employee)
 
 ### If you want to get the row number
 ```python
-print(employee._row) # Outputs: 1
+print(employee.get_row()) # Outputs: 1
 ```
 
-### Find the first row that matches your filters
+### Find the first record that matches your filters
 ```python
 employee = board.find(Employees, name="John Doe", address="80 Bla St, Vancouver")
 
 print(employee.phone) # Outputs: 7654321
+```
+
+### Get the board-instance through the record
+```python
+board = employee.get_board()
 ```
 
 ### Change value in memory
@@ -76,12 +81,12 @@ print(employee.phone) # Outputs: 7654321
 employee.name = "Tom Smith"
 ```
 
-### Find all rows that match your filters
+### Find all records that match your filters
 ```python
 result = board.find_all(Employees, country="Canada")
 ```
 
-### Retrieve all rows
+### Retrieve all records
 ```python
 result = board.find_all(Employees)
 ```
@@ -102,14 +107,4 @@ workbook = board._workbook
 ### Acess openpyxl-worksheet instance
 ```python
 worksheet = employee._worksheet
-```
-
-### Access the `Board()` of a Table instance
-```python
-board = employee._board
-```
-
-### Access the row number of a Table instance
-```python
-row = employee._row
 ```
