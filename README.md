@@ -59,6 +59,13 @@ employee = Employees(
 board.add(employee)
 ```
 
+### Optionally, you may add the values after instancing it
+```python
+employee = Employees()
+employee.name = "John Doe"
+...
+```
+
 ### If you want to get the row number
 ```python
 print(employee.get_row()) # Outputs: 1
